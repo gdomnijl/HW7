@@ -154,7 +154,7 @@ public class LootGenerator {
 	 * @param treasure, string representing treasure class
 	 * @return a string representing the base item that is not a treasure class by recursing through the map
 	 */
-	public static String getBaseItem (String treasure) {
+	public static String generateBaseItem (String treasure) {
 		Tuple selectedItems = baseItemMap.get(treasure);
 		int entry = getRandomNum(3); 
 		String baseItem;
@@ -189,9 +189,55 @@ public class LootGenerator {
 	 * @return a random number between the lower bound and upper bound statistics associated with the
 	 * base item (inclusive)
 	 */
-	public static int getBaseStat (String armor) {
+	public static int generateBaseStats (String armor) {
 		Pair p = baseStatMap.get(armor);
 		return randomBetween(p.ent1, p.ent2);
+	}
+
+	/**
+	 * Generate the affixes for our item such that a prefix and suffix each have 
+	 * a 1/2 chance of being generated
+	 */
+	public static void generateAffix(String baseItem) {
+		Random randomGenerator = new Random(); 
+		int randomNumber = randomGenerator.nextInt(4);
+		if (randomNumber == 0) {
+			FourTuple suffix = suffixMap.get(getRandomNum(suffixMap.size()));
+			String origin = suffix.ent1;
+			String power = suffix.ent2;
+			int level = randomBetween(suffix.ent3, suffix.ent4); 
+
+			System.out.println(baseItem + " " + origin);
+			System.out.println("Defense: " + generateBaseStats(baseItem));
+			System.out.println(level + " " + power);
+		} else if (randomNumber == 1) {
+			FourTuple prefix = prefixMap.get(getRandomNum(prefixMap.size()));
+			String origin = prefix.ent1;
+			String power = prefix.ent2;
+			int level = randomBetween(prefix.ent3, prefix.ent4); 
+
+			System.out.println(origin + " " + baseItem);
+			System.out.println("Defense: " + generateBaseStats(baseItem));
+			System.out.println(level + " " + power);
+		} else if (randomNumber == 2) {
+			FourTuple suffix = suffixMap.get(getRandomNum(suffixMap.size()));
+			String sufOrigin = suffix.ent1;
+			String sufPower = suffix.ent2;
+			int sufLevel = randomBetween(suffix.ent3, suffix.ent4); 
+
+			FourTuple prefix = prefixMap.get(getRandomNum(prefixMap.size()));
+			String preOrigin = prefix.ent1;
+			String prePower = prefix.ent2;
+			int preLevel = randomBetween(prefix.ent3, prefix.ent4); 
+
+			System.out.println(preOrigin + " " + baseItem + " " + sufOrigin);
+			System.out.println("Defense: " + generateBaseStats(baseItem));
+			System.out.println(preLevel + " " + prePower);
+			System.out.println(sufLevel + " " + sufPower);
+		} else {
+			System.out.println(baseItem);
+			System.out.println("Defense: " + generateBaseStats(baseItem));
+		}
 	}
 
 	/**
@@ -207,48 +253,8 @@ public class LootGenerator {
 		System.out.println(monsterName + " dropped:");
 		System.out.println ("");
 
-		Random randomGenerator = new Random(); 
-		int randomNumber = randomGenerator.nextInt(4);
-
-		String baseItem = getBaseItem(monsterTreasure);
-
-		if (randomNumber == 0) {
-			FourTuple suffix = suffixMap.get(getRandomNum(suffixMap.size()));
-			String origin = suffix.ent1;
-			String power = suffix.ent2;
-			int level = randomBetween(suffix.ent3, suffix.ent4); 
-
-			System.out.println(baseItem + " " + origin);
-			System.out.println("Defense: " + getBaseStat(baseItem));
-			System.out.println(level + " " + power);
-		} else if (randomNumber == 1) {
-			FourTuple prefix = prefixMap.get(getRandomNum(prefixMap.size()));
-			String origin = prefix.ent1;
-			String power = prefix.ent2;
-			int level = randomBetween(prefix.ent3, prefix.ent4); 
-
-			System.out.println(origin + " " + baseItem);
-			System.out.println("Defense: " + getBaseStat(baseItem));
-			System.out.println(level + " " + power);
-		} else if (randomNumber == 2) {
-			FourTuple suffix = suffixMap.get(getRandomNum(suffixMap.size()));
-			String sufOrigin = suffix.ent1;
-			String sufPower = suffix.ent2;
-			int sufLevel = randomBetween(suffix.ent3, suffix.ent4); 
-
-			FourTuple prefix = prefixMap.get(getRandomNum(prefixMap.size()));
-			String preOrigin = prefix.ent1;
-			String prePower = prefix.ent2;
-			int preLevel = randomBetween(prefix.ent3, prefix.ent4); 
-
-			System.out.println(preOrigin + " " + baseItem + " " + sufOrigin);
-			System.out.println("Defense: " + getBaseStat(baseItem));
-			System.out.println(preLevel + " " + prePower);
-			System.out.println(sufLevel + " " + sufPower);
-		} else {
-			System.out.println(baseItem);
-			System.out.println("Defense: " + getBaseStat(baseItem));
-		}
+		String baseItem = generateBaseItem (monsterTreasure);
+		generateAffix (baseItem);
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -278,4 +284,3 @@ public class LootGenerator {
 		in.close();
 	}
 }
-
