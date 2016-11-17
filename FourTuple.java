@@ -1,4 +1,3 @@
-
 public class FourTuple {
 	public String ent1; 
 	public String ent2; 
