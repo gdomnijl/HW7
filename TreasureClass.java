@@ -1,3 +1,9 @@
+/** 
+	 * The class TreasureClass holds three sub-fields:
+	 * item1: a string of item
+	 * item2: a string of item
+	 * item3: a string of item
+	 */
 public class TreasureClass {
 	public String item1; 
 	public String item2; 
