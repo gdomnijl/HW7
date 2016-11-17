@@ -1,4 +1,3 @@
-
 public class Tuple {
 	public String ent1; 
 	public String ent2; 
