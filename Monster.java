@@ -1,4 +1,3 @@
-
 public class Monster {
 	public String name; 
 	public String treasure; 
@@ -8,5 +7,3 @@ public class Monster {
 		this.treasure = treasure;
 	}
 }
-
-
