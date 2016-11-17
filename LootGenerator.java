@@ -194,9 +194,65 @@ public class LootGenerator {
 		return randomBetween(p.ent1, p.ent2);
 	}
 
+	/**
+	 * Generate game by coordinating other helper functions. 
+	 */
+	public static void playGame() {
+		Pair monster = monsterMap.get(getRandomNum(monsterMap.size()));
+		String monsterName = monster.ent1; 
+		String monsterTreasure = monster.ent2;
+
+		System.out.println("Fighting " + monsterName + "."); 
+		System.out.println("You have slain " + monsterName +"!" ); 
+		System.out.println(monsterName + " dropped:");
+		System.out.println ("");
+
+		Random randomGenerator = new Random(); 
+		int randomNumber = randomGenerator.nextInt(4);
+
+		String baseItem = getBaseItem(monsterTreasure);
+
+		if (randomNumber == 0) {
+			FourTuple suffix = suffixMap.get(getRandomNum(suffixMap.size()));
+			String origin = suffix.ent1;
+			String power = suffix.ent2;
+			int level = randomBetween(suffix.ent3, suffix.ent4); 
+
+			System.out.println(baseItem + " " + origin);
+			System.out.println("Defense: " + getBaseStat(baseItem));
+			System.out.println(level + " " + power);
+		} else if (randomNumber == 1) {
+			FourTuple prefix = prefixMap.get(getRandomNum(prefixMap.size()));
+			String origin = prefix.ent1;
+			String power = prefix.ent2;
+			int level = randomBetween(prefix.ent3, prefix.ent4); 
+
+			System.out.println(origin + " " + baseItem);
+			System.out.println("Defense: " + getBaseStat(baseItem));
+			System.out.println(level + " " + power);
+		} else if (randomNumber == 2) {
+			FourTuple suffix = suffixMap.get(getRandomNum(suffixMap.size()));
+			String sufOrigin = suffix.ent1;
+			String sufPower = suffix.ent2;
+			int sufLevel = randomBetween(suffix.ent3, suffix.ent4); 
+
+			FourTuple prefix = prefixMap.get(getRandomNum(prefixMap.size()));
+			String preOrigin = prefix.ent1;
+			String prePower = prefix.ent2;
+			int preLevel = randomBetween(prefix.ent3, prefix.ent4); 
+
+			System.out.println(preOrigin + " " + baseItem + " " + sufOrigin);
+			System.out.println("Defense: " + getBaseStat(baseItem));
+			System.out.println(preLevel + " " + prePower);
+			System.out.println(sufLevel + " " + sufPower);
+		} else {
+			System.out.println(baseItem);
+			System.out.println("Defense: " + getBaseStat(baseItem));
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		File monstat = new File ("monstats.txt"); 
-		File monstatLarge = new File ("monstats.txt"); 
 		File treasureClass = new File ("TreasureClassEx.txt"); 
 		File magicSuffix = new File ("MagicSuffix.txt"); 
 		File magicPrefix = new File ("MagicPrefix.txt"); 
@@ -206,73 +262,20 @@ public class LootGenerator {
 
 		boolean cont = true;
 		Scanner in = new Scanner(System.in);
-
 		while (cont) {
-			Pair monster = monsterMap.get(getRandomNum(monsterMap.size()));
-			String monsterName = monster.ent1; 
-			String monsterTreasure = monster.ent2;
-
-			System.out.println("Fighting " + monsterName + "."); 
-			System.out.println("You have slain " + monsterName +"!" ); 
-			System.out.println(monsterName + " dropped:");
-			System.out.println ("");
-
-			Random randomGenerator = new Random(); 
-			int randomNumber = randomGenerator.nextInt(4);
-
-			String baseItem = getBaseItem(monsterTreasure);
-
-			if (randomNumber == 0) {
-				FourTuple suffix = suffixMap.get(getRandomNum(suffixMap.size()));
-				String origin = suffix.ent1;
-				String power = suffix.ent2;
-				int level = randomBetween(suffix.ent3, suffix.ent4); 
-
-				System.out.println(baseItem + " " + origin);
-				System.out.println("Defense: " + getBaseStat(baseItem));
-				System.out.println(level + " " + power);
-			} else if (randomNumber == 1) {
-				FourTuple prefix = prefixMap.get(getRandomNum(prefixMap.size()));
-				String origin = prefix.ent1;
-				String power = prefix.ent2;
-				int level = randomBetween(prefix.ent3, prefix.ent4); 
-
-				System.out.println(origin + " " + baseItem);
-				System.out.println("Defense: " + getBaseStat(baseItem));
-				System.out.println(level + " " + power);
-			} else if (randomNumber == 2) {
-				FourTuple suffix = suffixMap.get(getRandomNum(suffixMap.size()));
-				String sufOrigin = suffix.ent1;
-				String sufPower = suffix.ent2;
-				int sufLevel = randomBetween(suffix.ent3, suffix.ent4); 
-
-				FourTuple prefix = prefixMap.get(getRandomNum(prefixMap.size()));
-				String preOrigin = prefix.ent1;
-				String prePower = prefix.ent2;
-				int preLevel = randomBetween(prefix.ent3, prefix.ent4); 
-
-				System.out.println(preOrigin + " " + baseItem + " " + sufOrigin);
-				System.out.println("Defense: " + getBaseStat(baseItem));
-				System.out.println(preLevel + " " + prePower);
-				System.out.println(sufLevel + " " + sufPower);
-			} else {
-				System.out.println(baseItem);
-				System.out.println("Defense: " + getBaseStat(baseItem));
-			}
-
+			playGame();
 			System.out.print("Fight again [y/n]?");
 			String ans = in.next().toLowerCase();
 			if(ans.equals("n")) {
 				cont = false;
 			}
-
 			while (!ans.equals("y") && !ans.equals("n")) {
 				System.out.print("Fight again [y/n]?");
 				ans = in.next().toLowerCase();
 			}
-
 			System.out.println("");
 		}
 		in.close();
 	}
 }
+
