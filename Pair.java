@@ -1,4 +1,3 @@
-
 public class Pair {
 	public String ent1; 
 	public String ent2; 
@@ -8,5 +7,3 @@ public class Pair {
 		this.ent2 = ent2;
 	}
 }
-
-
