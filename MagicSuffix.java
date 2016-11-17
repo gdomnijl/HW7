@@ -1,3 +1,10 @@
+/** 
+	 * The class MagicSuffix holds four sub-fields:
+	 * suffix: a string of suffix
+	 * power: store the type of the power as a string 
+	 * minVal: store the lower bound of the magic value as a string 
+	 * maxVal: store the upper bound of the magic value as a string 
+	 */
 public class MagicSuffix {
 	public String suffix; 
 	public String power; 
