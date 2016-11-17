@@ -41,7 +41,6 @@ public class LootGenerator {
 	}
 
 	/**
-	 * 
 	 * @param reader a scanner
 	 * @return map with an index attached to each entries of monsters as key, and a pair with monster name and treasure class as value
 	 */
@@ -59,11 +58,10 @@ public class LootGenerator {
 		}
 		return map;
 	}
-    /**
-     * 
-     * @param reader, a scanner
-     * @return map with string of treasure class as key, and Tuple of three base items as value
-     */
+	/**
+	 * @param reader, a scanner
+	 * @return map with string of treasure class as key, and Tuple of three base items as value
+	 */
 	public static Map <String, Tuple> generateBaseItemMap (Scanner reader) {
 		Map <String, Tuple> map = new HashMap<>(); 
 		while (reader.hasNextLine()) {
@@ -75,7 +73,6 @@ public class LootGenerator {
 	}
 
 	/**
-	 * 
 	 * @param reader, a scanner
 	 * @return map with string of base item as key, and Pair of two base item statistics as value
 	 */
@@ -90,7 +87,6 @@ public class LootGenerator {
 	}
 
 	/**
-	 * 
 	 * @param reader, a scanner
 	 * @return map with an index as key, and FourTuple of four tokens of suffix string as value
 	 */
@@ -107,7 +103,6 @@ public class LootGenerator {
 	}
 
 	/**
-	 * 
 	 * @param reader, a scanner
 	 * @return map with an index as key, and FourTuple of four tokens of prefix string as value
 	 */
@@ -124,7 +119,7 @@ public class LootGenerator {
 	}
 
 	/**
-	 * 
+	 * Generate a random number between low and high (low exclusive, high inclusive). 
 	 * @param low, a lower bound integer(inclusive)
 	 * @param high, a higher bound integer(inclusive)
 	 * @return a random number between low and high
@@ -134,15 +129,15 @@ public class LootGenerator {
 		int dif = (int) Integer.parseInt (high) - Integer.parseInt(low); 
 		int ret; 
 		if (dif != 0) {
-			ret = (int) Integer.parseInt (low) + randomGenerator.nextInt(dif);
+			int randnum = randomGenerator.nextInt(dif);
+			ret = (int) Integer.parseInt (low) + ((randnum > 0) ? randnum: randnum+1);
 		} else {
-			ret = (int) Integer.parseInt (low);
+			ret = (int) Integer.parseInt (low) + 1;
 		}
 		return ret;
 	}
 
 	/**
-	 * 
 	 * @param size, an integer
 	 * @return a random number between 0 (inclusive) and size(exclusive)
 	 */
@@ -150,14 +145,15 @@ public class LootGenerator {
 		Random randomGenerator = new Random(); 
 		return randomGenerator.nextInt(size);
 	}
-/** 
- * The method randomly chooses one of the three items in the Tuple, if the item chosen is a treasure class, 
- * the method recursively looks into the treasure class and randomly pick a item out of the three associated
- * items until the item chosen is a basic item (not a treasure class)
- * 
- * @param treasure, string representing treasure class
- * @return a string representing the base item that is not a treasure class by recursing through the map
- */
+
+	/** 
+	 * The method randomly chooses one of the three items in the Tuple, if the item chosen is a treasure class, 
+	 * the method recursively looks into the treasure class and randomly pick a item out of the three associated
+	 * items until the item chosen is a basic item (not a treasure class)
+	 * 
+	 * @param treasure, string representing treasure class
+	 * @return a string representing the base item that is not a treasure class by recursing through the map
+	 */
 	public static String getBaseItem (String treasure) {
 		Tuple selectedItems = baseItemMap.get(treasure);
 		int entry = getRandomNum(3); 
@@ -189,7 +185,6 @@ public class LootGenerator {
 	}
 
 	/**
-	 * 
 	 * @param armor a string representing base item
 	 * @return a random number between the lower bound and upper bound statistics associated with the
 	 * base item (inclusive)
@@ -200,12 +195,12 @@ public class LootGenerator {
 	}
 
 	public static void main(String[] args) throws IOException {
-		File monstat = new File ("/home/hejinlin/workspace/LootGenerator/small/monstats.txt"); 
-		File monstatLarge = new File ("/home/hejinlin/workspace/LootGenerator/large/monstats.txt"); 
-		File treasureClass = new File ("/home/hejinlin/workspace/LootGenerator/small/TreasureClassEx.txt"); 
-		File magicSuffix = new File ("/home/hejinlin/workspace/LootGenerator/small/MagicSuffix.txt"); 
-		File magicPrefix = new File ("/home/hejinlin/workspace/LootGenerator/small/MagicPrefix.txt"); 
-		File armor = new File ("/home/hejinlin/workspace/LootGenerator/small/armor.txt"); 
+		File monstat = new File ("monstats.txt"); 
+		File monstatLarge = new File ("monstats.txt"); 
+		File treasureClass = new File ("TreasureClassEx.txt"); 
+		File magicSuffix = new File ("MagicSuffix.txt"); 
+		File magicPrefix = new File ("MagicPrefix.txt"); 
+		File armor = new File ("armor.txt"); 
 
 		LootGenerator l = new LootGenerator (monstat, treasureClass, magicSuffix, magicPrefix, armor);
 
