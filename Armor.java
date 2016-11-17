@@ -1,6 +1,7 @@
 /**
-	 * 
-	 * The class Armor holds two fields that store the minimun and maximum defense value of the armor as strings
+	 * The class Armor holds two sub-fields:
+	 * minVal a string that stores the minimun defense value of the armor 
+	 * maxVal a string that stores the maximum defense value of the armor 
 	 */
 public class Armor {
 	public String minVal; 
